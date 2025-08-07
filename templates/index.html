@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>API Generator Chatbot</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+      body {
+        font-family: Arial;
+        max-width: 700px;
+        margin: auto;
+      }
+      #chatbox {
+        border: 1px solid #ccc;
+        padding: 10px;
+        min-height: 300px;
+      }
+      .user {
+        color: blue;
+        margin-bottom: 8px;
+      }
+      .bot {
+        color: green;
+        margin-bottom: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>💬 API Generator Assistant</h2>
+    <div id="chatbox"></div>
+    <input id="userInput" placeholder="Type a command..." style="width: 80%" />
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+      async function sendMessage() {
+        const input = document.getElementById("userInput").value;
+        const chatbox = document.getElementById("chatbox");
+
+        chatbox.innerHTML += `<div class="user">👤 You: ${input}</div>`;
+
+        const res = await axios.get(
+          `/chatbot?message=${encodeURIComponent(input)}`
+        );
+        chatbox.innerHTML += `<div class="bot">🤖 Bot: ${res.data.response}</div>`;
+
+        document.getElementById("userInput").value = "";
+      }
+    </script>
+  </body>
+</html>
